@@ -1,14 +1,11 @@
-name: Generate Helm documentation
-on:
-  - pull_request
+name: Update Chart Metadata
+
+on: push
+
 jobs:
-  generate:
+  update-chart-metadata:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-      with:
-        ref: ${{ github.event.pull_request.head.ref }}
-        - name: Run helm-docs
-          uses: losisin/helm-docs-github-action@v1
-          with:
-            fail-on-diff: true
+      - uses: actions/checkout@v3
+      - uses: gabe565/setup-helm-docs-action@v1
+      - run: helm-docs
