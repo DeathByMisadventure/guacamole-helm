@@ -1,0 +1,18 @@
+{{- if .Values.postgres.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "guacamole.fullname" . }}-postgres
+  labels: 
+{{ include "guacamole.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.postgres.type }}
+  ports:
+    - port: {{ .Values.postgres.port }}
+      targetPort: postgres
+      protocol: TCP
+      name: postgres
+  selector:
+    app.kubernetes.io/name: {{ include "guacamole.name" . }}-postgres
+    app.kubernetes.io/instance: {{ .Release.Name }}     
+{{- end }}

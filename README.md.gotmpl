@@ -1,0 +1,50 @@
+## Unclassified
+
+This Repository is Unclassified.
+
+© 2022, Applied Research Solutions (ARS). This work, authored by Applied Research Solutions (ARS, was funded in whole or in part by the U.S. Government under U.S. Government contract #FA8650-19-C-1692, and is, therefore, subject to the following license: The Government is granted for itself and others acting on its behalf a paid-up, nonexclusive, irrevocable worldwide license in this work to reproduce, prepare derivative works, distribute copies to the public, and perform publicly and display publicly, by or on behalf of the Government. All other rights are reserved by the copyright owner.
+
+# Guacamole Helm Chart
+
+This helm chart will deploy pairs of guacamole and guacd containers in Kubernetes for remote access into the environment.
+
+## Prerequisites
+
+* The Postgresql server for guacamole must be deployed into the environment.
+* AKS nodes must be able to reach the subnets the VMs are deployed in to.
+
+## Configure values.yaml or valuesoverride.yaml
+
+A few variables need to be created in the values.yaml.  Namely postgresql connection information, OpenID, and if a custom root certificate will be used.
+
+## Deployment
+
+Create a namespace:  `kubectl create ns guacamole`
+
+Add the secret for the certificate if using an ingress
+
+Install the helm chart with:  `helm install --namespace guacamole guacamole .`
+
+## Creating a DoD JKS Trust Store
+
+1. Go to the Tools section on the [Public Cyber Mil](https://public.cyber.mil/pki-pke/end-users/getting-started/) website.
+2. Click the Windows option.
+3. Find the link to download the latest version of the Non Administrator InstallRoot tool.
+4. Download the installer that is appropriate for the platform you are using.
+5. Double-click the downloaded file to start the installation process.
+6. On the Welcome screen, click Next.
+7. Specify the directory in which you want to install the tool, and click Next.
+8. On the InstallRoot Features screen, click Next.
+9. On the next screen, click Install.
+10. After the installation is finished, click Run InstallRoot.
+11. Expand DoD.
+12. Press Shift and select the list of certificates.
+13. Click the Certificate tab, and and then click PEM.
+14. In the Export dialog box, specify the location in which you want to save the exported files.
+15. From the command line, navigate to the directory in which you saved the exported files.
+16. Run this command after installing:
+
+  ```powershell
+  @ECHO OFF for /r %%f in (*.cer) do ( "keytool.exe" -importcert -noprompt -file "%%f" -alias "%%~nf" - keystore DoDRoot.jks -storepass "changeit" -keypass "changeit" )
+  ```
+

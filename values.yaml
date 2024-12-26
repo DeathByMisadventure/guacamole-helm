@@ -1,0 +1,114 @@
+# Configure values of Guacamole
+
+# -- Replica pairs to use for each Guacd and Guacamole pair
+replicaCount: 1
+
+guacamole:
+  image:
+    # -- Image repository
+    repository: guacamole/guacamole
+    tag: "{{ .Chart.AppVersion }}"
+    pullPolicy: IfNotPresent
+  # -- Key-value settings directly passed as environment variables for guacamole configuration
+  settings:
+    postgresql-ssl-mode: "prefer"
+    # both userrequired and auto_create_accounts cannot be true!
+    postgresql-user-required: "true"
+    postgresql-auto-create-accounts: "false"
+    webapp-context: ROOT
+  service:
+    type: ClusterIP
+    port: 8080
+
+guacd:
+  image:
+    repository: guacamole/guacd
+    tag: "{{ .Chart.AppVersion }}"
+    pullPolicy: IfNotPresent
+  service:
+    type: ClusterIP
+    port: 4822
+
+postgres:
+  enabled: true
+  image:
+    repository: postgres
+    tag: 16-alpine
+  replicas: 1
+  type: ClusterIP
+# Enter the postgresql variables used to set up the database
+# Additional information at https://guacamole.apache.org/doc/gug/jdbc-auth.html
+  hostname: "postgresql"
+  port: "5432"
+  database: "guacamole"
+  user: "guacamole"
+  password: "password"
+
+pvc:
+  claim0:
+    storageRequest: 100Mi
+
+
+# DBCreation is used to initialize or upgrade the database and is the third image required to deploy
+dbcreation:
+  image:
+    repository: postgres
+    tag: 16-alpine
+    pullPolicy: IfNotPresent
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+podSecurityContext:
+  {}
+  # fsGroup: 2000
+
+securityContext:
+  {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+
+
+ingress:
+  enabled: true
+  className: nginx
+  annotations:
+    {}
+    # appgw.ingress.kubernetes.io/ssl-redirect: "true"
+    # kubernetes.io/ingress.class: azure/application-gateway
+  hosts:
+    - host: guac.localdev.me
+      paths:
+        - /
+
+  tls: []
+  # - hosts:
+  #   - guac.domain.com
+  #   secretName: external-tls-cert
+
+resources: {}
+  # limits:
+  #   cpu: 100m
+  #   memory: 512Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 512Mi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+# If private or DoD authentication is required for OpenID, then a Java Key Store is required
+# that contains the root certificates needed to verify ssl
+# The password is the default 'changeit'
+cacerts:
+  enabled: false
+  filename: cacerts.dod

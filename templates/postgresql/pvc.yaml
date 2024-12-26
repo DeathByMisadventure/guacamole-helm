@@ -1,0 +1,15 @@
+{{- if .Values.postgres.enabled }}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ include "guacamole.fullname" . }}-claim0
+  labels:
+    io.kompose.service: postgres-claim0
+  {{- include "guacamole.labels" . | nindent 4 }}
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: {{ .Values.pvc.claim0.storageRequest | quote }}
+{{- end }}

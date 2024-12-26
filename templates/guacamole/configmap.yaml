@@ -1,0 +1,10 @@
+{{- if .Values.cacerts.enabled -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "guacamole.fullname" . }}
+  labels:
+{{ include "guacamole.labels" . | indent 4 }}
+binaryData:
+  cacerts: {{ .Files.Get .Values.cacerts.filename | b64enc }}
+{{- end }}
