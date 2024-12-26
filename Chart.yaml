@@ -6,7 +6,7 @@ description:
   This version of the helm chart includes both OpenID and custom CA root
   certificate capabilities.
 icon: http://guacamole.apache.org/images/guacamole-logo-64.png
-name: guacamole
+name: guacamole-helm
 sources:
   - http://guacamole.apache.org/
 version: 1.5.5

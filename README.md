@@ -2,47 +2,28 @@
 
 This helm chart will deploy pairs of guacamole and guacd containers in Kubernetes for remote access into the environment.
 
-![Version: 1.5.3](https://img.shields.io/badge/Version-1.5.3-informational?style=flat-square) ![AppVersion: 1.5.3](https://img.shields.io/badge/AppVersion-1.5.3-informational?style=flat-square)
+![Version: 1.5.5](https://img.shields.io/badge/Version-1.5.5-informational?style=flat-square) ![AppVersion: 1.5.5](https://img.shields.io/badge/AppVersion-1.5.5-informational?style=flat-square)
 
 ## Prerequisites
 
-* The Postgresql server for guacamole must be deployed into the environment.
-* AKS nodes must be able to reach the subnets the VMs are deployed in to.
+* The Postgresql server for guacamole must be deployed into the environment, or configure
+the values to enable the built in Postgresql instance.
 
 ## Configure values.yaml or valuesoverride.yaml
 
-A few variables need to be created in the values.yaml.  Namely postgresql connection information, OpenID, and if a custom root certificate will be used.
+A few variables need to be created in the values.yaml or in a values override.
 
 ## Deployment
 
-Create a namespace:  `kubectl create ns guacamole`
+Create a namespace:
+
+`kubectl create ns guacamole`
 
 Add the secret for the certificate if using an ingress
 
-Install the helm chart with:  `helm install --namespace guacamole guacamole .`
+Install the helm chart with:
 
-## Creating a DoD JKS Trust Store
-
-1. Go to the Tools section on the [Public Cyber Mil](https://public.cyber.mil/pki-pke/end-users/getting-started/) website.
-2. Click the Windows option.
-3. Find the link to download the latest version of the Non Administrator InstallRoot tool.
-4. Download the installer that is appropriate for the platform you are using.
-5. Double-click the downloaded file to start the installation process.
-6. On the Welcome screen, click Next.
-7. Specify the directory in which you want to install the tool, and click Next.
-8. On the InstallRoot Features screen, click Next.
-9. On the next screen, click Install.
-10. After the installation is finished, click Run InstallRoot.
-11. Expand DoD.
-12. Press Shift and select the list of certificates.
-13. Click the Certificate tab, and and then click PEM.
-14. In the Export dialog box, specify the location in which you want to save the exported files.
-15. From the command line, navigate to the directory in which you saved the exported files.
-16. Run this command after installing:
-
-  ```powershell
-  @ECHO OFF for /r %%f in (*.cer) do ( "keytool.exe" -importcert -noprompt -file "%%f" -alias "%%~nf" - keystore DoDRoot.jks -storepass "changeit" -keypass "changeit" )
-  ```
+`helm install --namespace guacamole guacamole .`
 
 ## Values
 
@@ -50,18 +31,20 @@ Install the helm chart with:  `helm install --namespace guacamole guacamole .`
 |-----|------|---------|-------------|
 | cacerts.enabled | bool | `false` | Enable External Certificate Truststore |
 | cacerts.filename | string | `"cacerts.dod"` | JKS cert store |
+| certificateTrust.chain | string | `"-----BEGIN CERTIFICATE-----\nMIIDcDCCAligAwIBAgIRAK3oVrLXD6emb8k/a1J3K50wDQYJKoZIhvcNAQELBQAw\nSzEQMA4GA1UEChMHQWNtZSBDbzE3MDUGA1UEAxMuS3ViZXJuZXRlcyBJbmdyZXNz\nIENvbnRyb2xsZXIgRmFrZSBDZXJ0aWZpY2F0ZTAeFw0yNDEyMjYxNTAyMDdaFw0y\nNTEyMjYxNTAyMDdaMEsxEDAOBgNVBAoTB0FjbWUgQ28xNzA1BgNVBAMTLkt1YmVy\nbmV0ZXMgSW5ncmVzcyBDb250cm9sbGVyIEZha2UgQ2VydGlmaWNhdGUwggEiMA0G\nCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCruycRyEuB4a5lVAKuJG6InGhJl0hE\nxSKvsWeTKbDbqBkObtlTn+qD2gsh9UunQ6V1GI1CwlVG+sv818WcivBJsYaj8Mqq\nCdBil98Kxe1N6J6ua65CS4Ws9d7LWTvvXWTNQ/0t4JSt6W8L4+WXwipXEdjEyucp\n47zbRmg47Fg8eLDnsSI44cWZGZBI8PBgfUxCLMoqSb/iwA3XrdXjA3hQh43HO4mR\nKR/iCVIZ/bwmq7+RsVG6tzt8EKKuml+jKb2KoGVeTGqaaPsRbVd1e2KxqHwJvPaJ\ntM5Tl5mYWJ4VzgYQi/hIHkCicDFQqUi8sduRPWfX8mXghQFToJLu77UjAgMBAAGj\nTzBNMA4GA1UdDwEB/wQEAwIFoDATBgNVHSUEDDAKBggrBgEFBQcDATAMBgNVHRMB\nAf8EAjAAMBgGA1UdEQQRMA+CDWluZ3Jlc3MubG9jYWwwDQYJKoZIhvcNAQELBQAD\nggEBAKlWSvxIqCwvO5gxQ2Ayw8LH+cYKBZMtq2+kQ7IthqJj2RZwCAR4+RKxlvcr\n/rgWNgk6x0873IG0sWYu1YORPrk35ysUwKLFogPfWFqAPc3SUcAGDgrVBOrKG9RB\nrY+Oj2klQsS68ih51/VCNFiapqDhqX58+mhblEumLsD+0B0ySDJrKGtPHZbTIzKR\nejznUBBDkNa3ZQ1Jn0rOK4YtmnwZVWiQ3bvxPAhg8HUbe81A+ZuWZ3iE/eWFNhpn\nKicBYgK3TBPXEu1xpQxu8pcNC+1Np3yvF7dbI806Pohlyr3oZpkE1jcVkrLLyB5Y\n1P38z8hjD+aOcacGbj2quTXFkQg=\n-----END CERTIFICATE-----\n"` |  |
+| certificateTrust.storePassword | string | `nil` |  |
 | fullnameOverride | string | `""` | Override deployment name |
 | guacamole.image.pullPolicy | string | `"IfNotPresent"` | Image pull policy |
 | guacamole.image.repository | string | `"guacamole/guacamole"` | Image repository |
 | guacamole.image.tag | string | `"{{ .Chart.AppVersion }}"` | Image tag defaults to Chart AppVersion |
-| guacamole.resources | object | `{}` | Pod assigned resources |
+| guacamole.resources | object | `{"limits":{"cpu":"1000m","memory":"1Gi"},"requests":{"cpu":"1000m","memory":"1Gi"}}` | Pod assigned resources |
 | guacamole.service.port | int | `8080` | Service port number |
 | guacamole.service.type | string | `"ClusterIP"` | Service type |
 | guacamole.settings | object | "" | Key-value settings directly passed as environment variables for guacamole configuration |
 | guacd.image.pullPolicy | string | `"IfNotPresent"` | Image pull policy |
 | guacd.image.repository | string | `"guacamole/guacd"` | Image repository |
 | guacd.image.tag | string | `"{{ .Chart.AppVersion }}"` | Image tag defaults to Chart AppVersion |
-| guacd.resources | object | `{}` | Pod assigned resources |
+| guacd.resources | object | `{"limits":{"cpu":"1000m","memory":"1Gi"},"requests":{"cpu":"1000m","memory":"1Gi"}}` | Pod assigned resources |
 | guacd.service.port | int | `4822` | Service port number |
 | guacd.service.type | string | `"ClusterIP"` | Service type |
 | imagePullSecrets | list | `[]` | Image pull secrets |
@@ -81,7 +64,7 @@ Install the helm chart with:  `helm install --namespace guacamole guacamole .`
 | postgres.password | string | `"password"` | Postgres password |
 | postgres.pvc.claim0.storageRequest | string | `"100Mi"` | Postgres PVC storage request size |
 | postgres.replicas | int | `1` | Number of replicas |
-| postgres.resources | object | `{}` | Pod assigned resources |
+| postgres.resources | object | `{"limits":{"cpu":"100m","memory":"1Gi"},"requests":{"cpu":"100m","memory":"1Gi"}}` | Pod assigned resources |
 | postgres.service.port | string | `"5432"` | Service port number |
 | postgres.service.type | string | `"ClusterIP"` | Service type |
 | postgres.user | string | `"guacamole"` | Postgres username |
