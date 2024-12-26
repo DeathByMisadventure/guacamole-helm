@@ -1,10 +1,26 @@
-{{- if .Values.cacerts.enabled -}}
+{{- if .Values.certificateTrust.chain }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ include "guacamole.fullname" . }}
+  name: {{ include "guacamole.fullname" . }}-certchain
   labels:
 {{ include "guacamole.labels" . | indent 4 }}
-binaryData:
-  cacerts: {{ .Files.Get .Values.cacerts.filename | b64enc }}
+data:
+  chain.pem: |
+    {{- .Values.certificateTrust.chain | nindent 4 }}
+  certimport.sh: |
+    #!/bin/sh
+    PEM_FILE=/load/chain.pem
+    KEYSTOREFILE=/etc/{{ .Release.Name }}/ssl/truststore.jks
+    KEYSTOREPASS={{ default "changeit" .Values.certificateTrust.storePassword }}
+    CERTS=$(grep 'END CERTIFICATE' $PEM_FILE| wc -l)
+    for N in $(seq 0 $(($CERTS - 1))); do
+      ALIAS="$N-$RANDOM"
+      cat $PEM_FILE |
+        awk "n==$N { print }; /END CERTIFICATE/ { n++ }" |
+        keytool -noprompt -import -trustcacerts \
+          -keystore ${KEYSTOREFILE} \
+          -storepass ${KEYSTOREPASS} \
+          -alias ${ALIAS}
+    done
 {{- end }}
