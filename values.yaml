@@ -7,62 +7,100 @@ guacamole:
   image:
     # -- Image repository
     repository: guacamole/guacamole
+    # -- Image tag defaults to Chart AppVersion
     tag: "{{ .Chart.AppVersion }}"
+    # -- Image pull policy
     pullPolicy: IfNotPresent
   # -- Key-value settings directly passed as environment variables for guacamole configuration
+  # @default -- ""
   settings:
     postgresql-ssl-mode: "prefer"
     # both userrequired and auto_create_accounts cannot be true!
     postgresql-user-required: "true"
     postgresql-auto-create-accounts: "false"
     webapp-context: ROOT
+  # -- Pod assigned resources
+  resources:
+    limits:
+      cpu: 1000m
+      memory: 1Gi
+    requests:
+      cpu: 1000m
+      memory: 1Gi
   service:
+    # -- Service type
     type: ClusterIP
+    # -- Service port number
     port: 8080
 
 guacd:
   image:
+    # -- Image repository
     repository: guacamole/guacd
+    # -- Image tag defaults to Chart AppVersion
     tag: "{{ .Chart.AppVersion }}"
+    # -- Image pull policy
     pullPolicy: IfNotPresent
+  # -- Pod assigned resources
+  resources:
+    limits:
+      cpu: 1000m
+      memory: 1Gi
+    requests:
+      cpu: 1000m
+      memory: 1Gi
   service:
+    # -- Service type
     type: ClusterIP
+    # -- Service port number
     port: 4822
 
 postgres:
+  # -- Enable internal postgres database
   enabled: true
   image:
+    # -- Image repository
     repository: postgres
+    # -- Image tag
     tag: 16-alpine
-  replicas: 1
-  type: ClusterIP
-# Enter the postgresql variables used to set up the database
-# Additional information at https://guacamole.apache.org/doc/gug/jdbc-auth.html
-  hostname: "postgresql"
-  port: "5432"
-  database: "guacamole"
-  user: "guacamole"
-  password: "password"
-
-pvc:
-  claim0:
-    storageRequest: 100Mi
-
-
-# DBCreation is used to initialize or upgrade the database and is the third image required to deploy
-dbcreation:
-  image:
-    repository: postgres
-    tag: 16-alpine
+    # -- Image pull policy
     pullPolicy: IfNotPresent
+  # -- Number of replicas
+  replicas: 1
+  # -- Pod assigned resources
+  resources:
+    limits:
+      cpu: 100m
+      memory: 1Gi
+    requests:
+      cpu: 100m
+      memory: 1Gi
+  service:
+    # -- Service type
+    type: ClusterIP
+    # -- Service port number
+    port: "5432"
+  # -- If internal postgres is disabled, the external database hostname
+  hostname: "postgres.localdev.me"
 
+  # -- Database name
+  database: "guacamole"
+  # -- Postgres username
+  user: "guacamole"
+  # -- Postgres password
+  password: "password"
+  pvc:
+    claim0:
+      # -- Postgres PVC storage request size
+      storageRequest: 100Mi
+
+# -- Image pull secrets
 imagePullSecrets: []
-nameOverride: ""
-fullnameOverride: ""
 
-podSecurityContext:
-  {}
-  # fsGroup: 2000
+# -- Override deployment name
+nameOverride: ""
+# -- Override deployment name
+fullnameOverride: ""
 
 securityContext:
   {}
@@ -76,39 +114,32 @@ securityContext:
 
 
 ingress:
+  # -- Enable Ingress
   enabled: true
+  # -- Ingress class type
   className: nginx
+  # -- Ingress annotations
   annotations:
     {}
     # appgw.ingress.kubernetes.io/ssl-redirect: "true"
     # kubernetes.io/ingress.class: azure/application-gateway
   hosts:
+    # -- Ingress hostname to bind
     - host: guac.localdev.me
+      # -- Ingress host paths
       paths:
         - /
-
+  # -- Enable TLS
   tls: []
   # - hosts:
   #   - guac.domain.com
   #   secretName: external-tls-cert
 
-resources: {}
-  # limits:
-  #   cpu: 100m
-  #   memory: 512Mi
-  # requests:
-  #   cpu: 100m
-  #   memory: 512Mi
-
-nodeSelector: {}
-
-tolerations: []
-
-affinity: {}
-
 # If private or DoD authentication is required for OpenID, then a Java Key Store is required
 # that contains the root certificates needed to verify ssl
 # The password is the default 'changeit'
 cacerts:
+  # -- Enable External Certificate Truststore
   enabled: false
+  # -- JKS cert store
   filename: cacerts.dod

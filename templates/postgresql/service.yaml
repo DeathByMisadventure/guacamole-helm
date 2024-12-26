@@ -6,9 +6,9 @@ metadata:
   labels: 
 {{ include "guacamole.labels" . | nindent 4 }}
 spec:
-  type: {{ .Values.postgres.type }}
+  type: {{ .Values.postgres.service.type }}
   ports:
-    - port: {{ .Values.postgres.port }}
+    - port: {{ .Values.postgres.service.port }}
       targetPort: postgres
       protocol: TCP
       name: postgres

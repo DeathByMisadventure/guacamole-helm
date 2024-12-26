@@ -11,5 +11,5 @@ spec:
   - ReadWriteOnce
   resources:
     requests:
-      storage: {{ .Values.pvc.claim0.storageRequest | quote }}
+      storage: {{ .Values.postgres.pvc.claim0.storageRequest | quote }}
 {{- end }}

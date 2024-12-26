@@ -24,12 +24,8 @@ spec:
         options:
           - name: ndots
             value: "1"
-      securityContext:
-        {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
         - name: {{ .Chart.Name }}
-          securityContext:
-            {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.guacd.image.repository }}:{{ tpl .Values.guacd.image.tag . }}"
           imagePullPolicy: {{ .Values.guacd.image.pullPolicy }}
           envFrom:
@@ -40,17 +36,6 @@ spec:
               containerPort: {{ .Values.guacd.service.port }}
               protocol: TCP
           resources:
-            {{- toYaml .Values.resources | nindent 12 }}
-      {{- with .Values.nodeSelector }}
-      nodeSelector:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-    {{- with .Values.affinity }}
-      affinity:
-        {{- toYaml . | nindent 8 }}
-    {{- end }}
-    {{- with .Values.tolerations }}
-      tolerations:
-        {{- toYaml . | nindent 8 }}
-    {{- end }}
-
+            {{- toYaml .Values.guacd.resources | nindent 12 }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}

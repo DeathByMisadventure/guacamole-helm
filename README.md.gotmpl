@@ -1,12 +1,8 @@
-## Unclassified
-
-This Repository is Unclassified.
-
-© 2022, Applied Research Solutions (ARS). This work, authored by Applied Research Solutions (ARS, was funded in whole or in part by the U.S. Government under U.S. Government contract #FA8650-19-C-1692, and is, therefore, subject to the following license: The Government is granted for itself and others acting on its behalf a paid-up, nonexclusive, irrevocable worldwide license in this work to reproduce, prepare derivative works, distribute copies to the public, and perform publicly and display publicly, by or on behalf of the Government. All other rights are reserved by the copyright owner.
-
 # Guacamole Helm Chart
 
 This helm chart will deploy pairs of guacamole and guacd containers in Kubernetes for remote access into the environment.
+
+{{ template "chart.badgesSection" . }}
 
 ## Prerequisites
 
@@ -48,3 +44,6 @@ Install the helm chart with:  `helm install --namespace guacamole guacamole .`
   @ECHO OFF for /r %%f in (*.cer) do ( "keytool.exe" -importcert -noprompt -file "%%f" -alias "%%~nf" - keystore DoDRoot.jks -storepass "changeit" -keypass "changeit" )
   ```
 
+{{ template "chart.requirementsSection" . }}
+
+{{ template "chart.valuesSection" . }}
