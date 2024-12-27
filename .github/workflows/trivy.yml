@@ -29,7 +29,7 @@ jobs:
           scan-type: 'config'
           hide-progress: false
           format: 'sarif'
-          scan-ref: 'charts/sample-helm-devsecops'
+          scan-ref: ''
           output: 'trivy-results.sarif'
           exit-code: '1'
           ignore-unfixed: true
