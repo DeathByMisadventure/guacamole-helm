@@ -33,10 +33,10 @@ spec:
             {{- toYaml .Values.securityContext | nindent 12 }}
           volumeMounts:
             - mountPath: /var/lib/postgresql/data
-              name: postgres-claim0
+              name: postgres-pvc
       restartPolicy: Always
       volumes:
-        - name: postgres-claim0
+        - name: postgres-pvc
           persistentVolumeClaim:
-            claimName: {{ include "guacamole.fullname" . }}-claim0
+            claimName: {{ include "guacamole.fullname" . }}-pvc
 {{- end }}
