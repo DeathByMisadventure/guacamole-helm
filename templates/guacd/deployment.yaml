@@ -28,9 +28,6 @@ spec:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.guacd.image.repository }}:{{ tpl .Values.guacd.image.tag . }}"
           imagePullPolicy: {{ .Values.guacd.image.pullPolicy }}
-          # envFrom:
-          #   - secretRef:
-          #       name: {{ include "guacamole.fullname" . }}
           ports:
             - name: guacd
               containerPort: {{ .Values.guacd.service.port }}

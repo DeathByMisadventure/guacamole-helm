@@ -21,13 +21,3 @@
     defaultMode: 0755
 {{- end -}}
 
-{{/* Init Container */}}
-{{- define "truststore.initcontainer" -}}
-- name: {{ .Release.Name }}-init-jks
-  image: "{{ .Values.guacamole.image.repository }}:{{ tpl .Values.guacamole.image.tag . }}"
-  command: ['sh', '-c', '/load/certimport.sh']
-  volumeMounts:
-    - name: {{ include "guacamole.fullname" . }}-certchain
-      mountPath: /load/
-{{ include "truststore.volumeMounts" . | indent 4 }}
-{{- end -}}

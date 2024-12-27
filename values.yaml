@@ -29,6 +29,14 @@ guacamole:
       memory: 1Gi
   # -- Pod security context
   securityContext:
+    allowPrivilegeEscalation: false
+    # runAsNonRoot: true
+    readOnlyRootFilesystem: true
+    capabilities:
+      drop:
+        - ALL
+    seccompProfile:
+      type: RuntimeDefault
   service:
     # -- Service type
     type: ClusterIP
@@ -53,6 +61,14 @@ guacd:
       memory: 1Gi
   # -- Pod security context
   securityContext:
+    allowPrivilegeEscalation: false
+    # runAsNonRoot: true
+    readOnlyRootFilesystem: true
+    capabilities:
+      drop:
+        - ALL
+    seccompProfile:
+      type: RuntimeDefault
   service:
     # -- Service type
     type: ClusterIP
@@ -81,6 +97,14 @@ postgres:
       memory: 1Gi
   # -- Pod security context
   securityContext:
+    # allowPrivilegeEscalation: false
+    # runAsNonRoot: true
+    # readOnlyRootFilesystem: false
+    # capabilities:
+    #   drop:
+    #     - ALL
+    # seccompProfile:
+    #   type: RuntimeDefault
   service:
     # -- Service type
     type: ClusterIP

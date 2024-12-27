@@ -1,3 +1,4 @@
 test.yaml
 charts/*
 requirements.lock
+results.txt
