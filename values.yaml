@@ -31,7 +31,7 @@ guacamole:
   securityContext:
     allowPrivilegeEscalation: false
     # runAsNonRoot: true
-    readOnlyRootFilesystem: true
+    readOnlyRootFilesystem: false
     capabilities:
       drop:
         - ALL
