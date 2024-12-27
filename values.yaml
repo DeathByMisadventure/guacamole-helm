@@ -27,6 +27,8 @@ guacamole:
     requests:
       cpu: 1000m
       memory: 1Gi
+  # -- Pod security context
+  securityContext:
   service:
     # -- Service type
     type: ClusterIP
@@ -49,6 +51,8 @@ guacd:
     requests:
       cpu: 1000m
       memory: 1Gi
+  # -- Pod security context
+  securityContext:
   service:
     # -- Service type
     type: ClusterIP
@@ -75,6 +79,8 @@ postgres:
     requests:
       cpu: 100m
       memory: 1Gi
+  # -- Pod security context
+  securityContext:
   service:
     # -- Service type
     type: ClusterIP
@@ -102,17 +108,6 @@ nameOverride: ""
 # -- Override deployment name
 fullnameOverride: ""
 
-securityContext:
-  {}
-  # capabilities:
-  #   drop:
-  #   - ALL
-  # readOnlyRootFilesystem: true
-  # runAsNonRoot: true
-  # runAsUser: 1000
-
-
-
 ingress:
   # -- Enable Ingress
   enabled: true
@@ -136,35 +131,8 @@ ingress:
   #   secretName: external-tls-cert
 
 certificateTrust:
+  # -- Override the JKS store password, if blank the password defaults to 'changeit'
   storePassword:
+  # -- Chain of 0 to many PEM certificates which will be imported into the trust store
+  # @default -- ""
   chain: |
-    -----BEGIN CERTIFICATE-----
-    MIIDcDCCAligAwIBAgIRAK3oVrLXD6emb8k/a1J3K50wDQYJKoZIhvcNAQELBQAw
-    SzEQMA4GA1UEChMHQWNtZSBDbzE3MDUGA1UEAxMuS3ViZXJuZXRlcyBJbmdyZXNz
-    IENvbnRyb2xsZXIgRmFrZSBDZXJ0aWZpY2F0ZTAeFw0yNDEyMjYxNTAyMDdaFw0y
-    NTEyMjYxNTAyMDdaMEsxEDAOBgNVBAoTB0FjbWUgQ28xNzA1BgNVBAMTLkt1YmVy
-    bmV0ZXMgSW5ncmVzcyBDb250cm9sbGVyIEZha2UgQ2VydGlmaWNhdGUwggEiMA0G
-    CSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCruycRyEuB4a5lVAKuJG6InGhJl0hE
-    xSKvsWeTKbDbqBkObtlTn+qD2gsh9UunQ6V1GI1CwlVG+sv818WcivBJsYaj8Mqq
-    CdBil98Kxe1N6J6ua65CS4Ws9d7LWTvvXWTNQ/0t4JSt6W8L4+WXwipXEdjEyucp
-    47zbRmg47Fg8eLDnsSI44cWZGZBI8PBgfUxCLMoqSb/iwA3XrdXjA3hQh43HO4mR
-    KR/iCVIZ/bwmq7+RsVG6tzt8EKKuml+jKb2KoGVeTGqaaPsRbVd1e2KxqHwJvPaJ
-    tM5Tl5mYWJ4VzgYQi/hIHkCicDFQqUi8sduRPWfX8mXghQFToJLu77UjAgMBAAGj
-    TzBNMA4GA1UdDwEB/wQEAwIFoDATBgNVHSUEDDAKBggrBgEFBQcDATAMBgNVHRMB
-    Af8EAjAAMBgGA1UdEQQRMA+CDWluZ3Jlc3MubG9jYWwwDQYJKoZIhvcNAQELBQAD
-    ggEBAKlWSvxIqCwvO5gxQ2Ayw8LH+cYKBZMtq2+kQ7IthqJj2RZwCAR4+RKxlvcr
-    /rgWNgk6x0873IG0sWYu1YORPrk35ysUwKLFogPfWFqAPc3SUcAGDgrVBOrKG9RB
-    rY+Oj2klQsS68ih51/VCNFiapqDhqX58+mhblEumLsD+0B0ySDJrKGtPHZbTIzKR
-    ejznUBBDkNa3ZQ1Jn0rOK4YtmnwZVWiQ3bvxPAhg8HUbe81A+ZuWZ3iE/eWFNhpn
-    KicBYgK3TBPXEu1xpQxu8pcNC+1Np3yvF7dbI806Pohlyr3oZpkE1jcVkrLLyB5Y
-    1P38z8hjD+aOcacGbj2quTXFkQg=
-    -----END CERTIFICATE-----
-
-# If private or DoD authentication is required for OpenID, then a Java Key Store is required
-# that contains the root certificates needed to verify ssl
-# The password is the default 'changeit'
-cacerts:
-  # -- Enable External Certificate Truststore
-  enabled: false
-  # -- JKS cert store
-  filename: cacerts.dod

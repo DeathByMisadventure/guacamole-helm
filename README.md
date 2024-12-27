@@ -29,15 +29,14 @@ Install the helm chart with:
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
-| cacerts.enabled | bool | `false` | Enable External Certificate Truststore |
-| cacerts.filename | string | `"cacerts.dod"` | JKS cert store |
-| certificateTrust.chain | string | `"-----BEGIN CERTIFICATE-----\nMIIDcDCCAligAwIBAgIRAK3oVrLXD6emb8k/a1J3K50wDQYJKoZIhvcNAQELBQAw\nSzEQMA4GA1UEChMHQWNtZSBDbzE3MDUGA1UEAxMuS3ViZXJuZXRlcyBJbmdyZXNz\nIENvbnRyb2xsZXIgRmFrZSBDZXJ0aWZpY2F0ZTAeFw0yNDEyMjYxNTAyMDdaFw0y\nNTEyMjYxNTAyMDdaMEsxEDAOBgNVBAoTB0FjbWUgQ28xNzA1BgNVBAMTLkt1YmVy\nbmV0ZXMgSW5ncmVzcyBDb250cm9sbGVyIEZha2UgQ2VydGlmaWNhdGUwggEiMA0G\nCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCruycRyEuB4a5lVAKuJG6InGhJl0hE\nxSKvsWeTKbDbqBkObtlTn+qD2gsh9UunQ6V1GI1CwlVG+sv818WcivBJsYaj8Mqq\nCdBil98Kxe1N6J6ua65CS4Ws9d7LWTvvXWTNQ/0t4JSt6W8L4+WXwipXEdjEyucp\n47zbRmg47Fg8eLDnsSI44cWZGZBI8PBgfUxCLMoqSb/iwA3XrdXjA3hQh43HO4mR\nKR/iCVIZ/bwmq7+RsVG6tzt8EKKuml+jKb2KoGVeTGqaaPsRbVd1e2KxqHwJvPaJ\ntM5Tl5mYWJ4VzgYQi/hIHkCicDFQqUi8sduRPWfX8mXghQFToJLu77UjAgMBAAGj\nTzBNMA4GA1UdDwEB/wQEAwIFoDATBgNVHSUEDDAKBggrBgEFBQcDATAMBgNVHRMB\nAf8EAjAAMBgGA1UdEQQRMA+CDWluZ3Jlc3MubG9jYWwwDQYJKoZIhvcNAQELBQAD\nggEBAKlWSvxIqCwvO5gxQ2Ayw8LH+cYKBZMtq2+kQ7IthqJj2RZwCAR4+RKxlvcr\n/rgWNgk6x0873IG0sWYu1YORPrk35ysUwKLFogPfWFqAPc3SUcAGDgrVBOrKG9RB\nrY+Oj2klQsS68ih51/VCNFiapqDhqX58+mhblEumLsD+0B0ySDJrKGtPHZbTIzKR\nejznUBBDkNa3ZQ1Jn0rOK4YtmnwZVWiQ3bvxPAhg8HUbe81A+ZuWZ3iE/eWFNhpn\nKicBYgK3TBPXEu1xpQxu8pcNC+1Np3yvF7dbI806Pohlyr3oZpkE1jcVkrLLyB5Y\n1P38z8hjD+aOcacGbj2quTXFkQg=\n-----END CERTIFICATE-----\n"` |  |
-| certificateTrust.storePassword | string | `nil` |  |
+| certificateTrust.chain | string | "" | Chain of 0 to many PEM certificates which will be imported into the trust store |
+| certificateTrust.storePassword | string | `nil` | Override the JKS store password, if blank the password defaults to 'changeit' |
 | fullnameOverride | string | `""` | Override deployment name |
 | guacamole.image.pullPolicy | string | `"IfNotPresent"` | Image pull policy |
 | guacamole.image.repository | string | `"guacamole/guacamole"` | Image repository |
 | guacamole.image.tag | string | `"{{ .Chart.AppVersion }}"` | Image tag defaults to Chart AppVersion |
 | guacamole.resources | object | `{"limits":{"cpu":"1000m","memory":"1Gi"},"requests":{"cpu":"1000m","memory":"1Gi"}}` | Pod assigned resources |
+| guacamole.securityContext | string | `nil` | Pod security context |
 | guacamole.service.port | int | `8080` | Service port number |
 | guacamole.service.type | string | `"ClusterIP"` | Service type |
 | guacamole.settings | object | "" | Key-value settings directly passed as environment variables for guacamole configuration |
@@ -45,6 +44,7 @@ Install the helm chart with:
 | guacd.image.repository | string | `"guacamole/guacd"` | Image repository |
 | guacd.image.tag | string | `"{{ .Chart.AppVersion }}"` | Image tag defaults to Chart AppVersion |
 | guacd.resources | object | `{"limits":{"cpu":"1000m","memory":"1Gi"},"requests":{"cpu":"1000m","memory":"1Gi"}}` | Pod assigned resources |
+| guacd.securityContext | string | `nil` | Pod security context |
 | guacd.service.port | int | `4822` | Service port number |
 | guacd.service.type | string | `"ClusterIP"` | Service type |
 | imagePullSecrets | list | `[]` | Image pull secrets |
@@ -65,8 +65,8 @@ Install the helm chart with:
 | postgres.pvc.claim0.storageRequest | string | `"100Mi"` | Postgres PVC storage request size |
 | postgres.replicas | int | `1` | Number of replicas |
 | postgres.resources | object | `{"limits":{"cpu":"100m","memory":"1Gi"},"requests":{"cpu":"100m","memory":"1Gi"}}` | Pod assigned resources |
+| postgres.securityContext | string | `nil` | Pod security context |
 | postgres.service.port | string | `"5432"` | Service port number |
 | postgres.service.type | string | `"ClusterIP"` | Service type |
 | postgres.user | string | `"guacamole"` | Postgres username |
 | replicaCount | int | `1` | Replica pairs to use for each Guacd and Guacamole pair |
-| securityContext | object | `{}` |  |

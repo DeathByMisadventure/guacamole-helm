@@ -34,7 +34,7 @@ spec:
           resources:
             {{- toYaml .Values.guacamole.resources | nindent 12 }}
           securityContext:
-            {{- toYaml .Values.securityContext | nindent 12 }}
+            {{- toYaml .Values.guacamole.securityContext | nindent 12 }}
           volumeMounts:
             - name: initdb
               mountPath: /data
@@ -52,7 +52,7 @@ spec:
           resources:
             {{- toYaml .Values.postgres.resources | nindent 12 }}
           securityContext:
-            {{- toYaml .Values.securityContext | nindent 12 }}
+            {{- toYaml .Values.guacamole.securityContext | nindent 12 }}
           volumeMounts:
             - name: initdb
               mountPath: /data
@@ -88,7 +88,7 @@ spec:
           resources:
             {{- toYaml .Values.guacamole.resources | nindent 12 }}
           securityContext:
-            {{- toYaml .Values.securityContext | nindent 12 }}
+            {{- toYaml .Values.guacamole.securityContext | nindent 12 }}
       {{- if .Values.certificateTrust.chain }}
           volumeMounts:
           {{- include "truststore.volumeMounts" . | nindent 12 -}}

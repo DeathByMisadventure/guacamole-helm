@@ -38,4 +38,4 @@ spec:
           resources:
             {{- toYaml .Values.guacd.resources | nindent 12 }}
           securityContext:
-            {{- toYaml .Values.securityContext | nindent 12 }}
+            {{- toYaml .Values.guacd.securityContext | nindent 12 }}
