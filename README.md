@@ -1,4 +1,4 @@
-# Guacamole Helm Chart
+# Guacamole with Postgresql Helm Chart
 
 Apache Guacamole is a clientless remote desktop gateway. It supports standard protocols like VNC, RDP, and SSH. This version of the helm chart includes support for custom configuration such as OpenID and custom CA root certificate capabilities. This helm chart will deploy pairs of guacamole and guacd containers in Kubernetes for remote access into your secured environment.
 
