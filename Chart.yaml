@@ -3,15 +3,14 @@ appVersion: 1.5.5
 description:
   Apache Guacamole is a clientless remote desktop gateway. It supports
   standard protocols like VNC, RDP, and SSH.
-  This version of the helm chart includes both OpenID and custom CA root
-  certificate capabilities.
+  This version of the helm chart includes support for custom configuration such as
+  OpenID and custom CA root certificate capabilities.
+  This helm chart will deploy pairs of guacamole and guacd containers in
+  Kubernetes for remote access into your secured environment.
+home: https://github.com/DeathByMisadventure/guacamole-helm
 icon: http://guacamole.apache.org/images/guacamole-logo-64.png
 name: guacamole
 sources:
-  - http://guacamole.apache.org/
+  - https://guacamole.apache.org/
+type: application
 version: 1.5.5
-dependencies:
-  - name: ingress-nginx # https://artifacthub.io/packages/helm/ingress-nginx/ingress-nginx
-    version: ~4.8.3
-    repository: "https://kubernetes.github.io/ingress-nginx"
-    condition: ingress.enabled

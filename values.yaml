@@ -149,10 +149,10 @@ ingress:
       paths:
         - /
   # -- Enable TLS
-  tls: []
-  # - hosts:
-  #   - guac.domain.com
-  #   secretName: external-tls-cert
+  tls:
+    # - hosts:
+    #   - guac.localdev.me
+    #   secretName: external-tls-cert
 
 certificateTrust:
   # -- Override the JKS store password, if blank the password defaults to 'changeit'
