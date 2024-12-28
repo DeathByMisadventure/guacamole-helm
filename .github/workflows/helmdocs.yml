@@ -1,6 +1,6 @@
 name: Generate Helm documentation
 on:
-  - pull_request
+  - push
 jobs:
   generate:
     runs-on: ubuntu-latest
