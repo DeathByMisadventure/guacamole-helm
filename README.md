@@ -106,7 +106,7 @@ Install the helm chart with:
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | certificateTrust.chain | string | "" | Chain of 0 to many PEM certificates which will be imported into the trust store |
-| certificateTrust.storePassword | string | `"changeit"` | Override the JKS store password, if blank the password defaults to 'changeit' |
+| certificateTrust.storePassword | string | `nil` | Override the JKS store password, if blank the password defaults to 'changeit' |
 | fullnameOverride | string | `""` | Override deployment name |
 | guacamole.image.pullPolicy | string | `"IfNotPresent"` | Image pull policy |
 | guacamole.image.repository | string | `"guacamole/guacamole"` | Image repository |
