@@ -156,7 +156,7 @@ ingress:
 
 certificateTrust:
   # -- Override the JKS store password, if blank the password defaults to 'changeit'
-  storePassword: 'changeit'
+  storePassword:
   # -- Chain of 0 to many PEM certificates which will be imported into the trust store
   # @default -- ""
   chain: |
