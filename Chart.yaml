@@ -8,7 +8,7 @@ description:
   This helm chart will deploy pairs of guacamole and guacd containers in
   Kubernetes for remote access into your secured environment.
 home: https://github.com/DeathByMisadventure/guacamole-helm
-icon: http://guacamole.apache.org/images/guacamole-logo-64.png
+icon: https://guacamole.apache.org/images/guacamole-logo-64.png
 name: guacamole
 sources:
   - https://guacamole.apache.org/
