@@ -146,7 +146,7 @@ Install the helm chart with:
 | guacamole.image.pullPolicy | string | `"IfNotPresent"` | Image pull policy |
 | guacamole.image.repository | string | `"guacamole/guacamole"` | Image repository |
 | guacamole.image.tag | string | `"{{ .Chart.AppVersion }}"` | Image tag defaults to Chart AppVersion |
-| guacamole.resources | object | `{"limits":{"cpu":"1000m","memory":"1Gi"},"requests":{"cpu":"1000m","memory":"1Gi"}}` | Pod assigned resources |
+| guacamole.resources | object | `{"limits":{"cpu":"1000m","memory":"1Gi"},"requests":{"cpu":"1000m","ephemeral-storage":"2Gi","memory":"1Gi"}}` | Pod assigned resources |
 | guacamole.securityContext | object | `{"allowPrivilegeEscalation":false,"capabilities":{"drop":["ALL"]},"readOnlyRootFilesystem":false,"seccompProfile":{"type":"RuntimeDefault"}}` | Pod security context |
 | guacamole.service.port | int | `8080` | Service port number |
 | guacamole.service.type | string | `"ClusterIP"` | Service type |
@@ -154,7 +154,7 @@ Install the helm chart with:
 | guacd.image.pullPolicy | string | `"IfNotPresent"` | Image pull policy |
 | guacd.image.repository | string | `"guacamole/guacd"` | Image repository |
 | guacd.image.tag | string | `"{{ .Chart.AppVersion }}"` | Image tag defaults to Chart AppVersion |
-| guacd.resources | object | `{"limits":{"cpu":"1000m","memory":"1Gi"},"requests":{"cpu":"1000m","memory":"1Gi"}}` | Pod assigned resources |
+| guacd.resources | object | `{"limits":{"cpu":"1000m","ephemeral-storage":"2Gi","memory":"1Gi"},"requests":{"cpu":"1000m","memory":"1Gi"}}` | Pod assigned resources |
 | guacd.securityContext | object | `{"allowPrivilegeEscalation":false,"capabilities":{"drop":["ALL"]},"readOnlyRootFilesystem":true,"seccompProfile":{"type":"RuntimeDefault"}}` | Pod security context |
 | guacd.service.port | int | `4822` | Service port number |
 | guacd.service.type | string | `"ClusterIP"` | Service type |
@@ -178,7 +178,7 @@ Install the helm chart with:
 | postgres.pvc.storageClassName | string | `nil` | Storage Class Name for a pre-provisioned PV |
 | postgres.pvc.storageRequest | string | `"100Mi"` | Postgres PVC storage request size |
 | postgres.replicas | int | `1` | Number of replicas |
-| postgres.resources | object | `{"limits":{"cpu":"100m","memory":"1Gi"},"requests":{"cpu":"100m","memory":"1Gi"}}` | Pod assigned resources |
+| postgres.resources | object | `{"limits":{"cpu":"100m","ephemeral-storage":"2Gi","memory":"1Gi"},"requests":{"cpu":"100m","memory":"1Gi"}}` | Pod assigned resources |
 | postgres.securityContext | string | `nil` | Pod security context |
 | postgres.service.port | string | `"5432"` | Service port number |
 | postgres.service.type | string | `"ClusterIP"` | Service type |
