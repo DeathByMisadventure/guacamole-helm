@@ -120,9 +120,14 @@ postgres:
   # -- Postgres password
   password: "password"
   pvc:
-    claim0:
-      # -- Postgres PVC storage request size
-      storageRequest: 100Mi
+    # -- Postgres PVC storage request size
+    storageRequest: 100Mi
+    # -- Storage Class Name for a pre-provisioned PV
+    storageClassName:
+    # -- Selector to match pre-provisioned PV
+    selector:
+      # matchLabels:
+      #   type: postgres-pv
 
 # -- Image pull secrets
 imagePullSecrets: []
@@ -139,7 +144,6 @@ ingress:
   className: nginx
   # -- Ingress annotations
   annotations:
-    {}
     # appgw.ingress.kubernetes.io/ssl-redirect: "true"
     # kubernetes.io/ingress.class: azure/application-gateway
   hosts:
@@ -160,3 +164,22 @@ certificateTrust:
   # -- Chain of 0 to many PEM certificates which will be imported into the trust store
   # @default -- ""
   chain: |
+
+ingress-nginx:
+  controller:
+    # -- Ingress-NGINX Configuration for MODSECURITY OWASP Protection
+    config:
+      enable-modsecurity: "true"
+      enable-owasp-modsecurity-crs: "true"
+      modsecurity-transaction-id: "$request_id"
+      modsecurity-snippet: |
+        SecRuleEngine On
+        SecStatusEngine Off
+        SecAuditLog /dev/stdout
+        SecAuditLogFormat JSON
+        SecAuditLogParts ABCFHKZ
+        SecAuditEngine RelevantOnly
+        SecPcreMatchLimit 500000
+        SecPcreMatchLimitRecursion 500000
+        SecAction "id:900200,phase:1,nolog,pass,t:none,setvar:tx.allowed_methods=GET HEAD POST OPTIONS PUT PATCH DELETE"
+        SecRuleRemoveById 920440

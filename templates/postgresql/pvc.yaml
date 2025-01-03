@@ -6,9 +6,16 @@ metadata:
   labels:
   {{- include "guacamole.labels" . | nindent 4 }}
 spec:
+{{- if .Values.postgres.pvc.storageClassName }}
+  storageClassName: {{ .Values.postgres.pvc.storageClassName | quote }}
+{{- end }}
   accessModes:
-  - ReadWriteOnce
+    - ReadWriteOnce
   resources:
     requests:
-      storage: {{ .Values.postgres.pvc.claim0.storageRequest | quote }}
+      storage: {{ .Values.postgres.pvc.storageRequest | quote }}
+{{- if .Values.postgres.pvc.selector }}
+  selector:
+    {{- toYaml .Values.postgres.pvc.selector | nindent 4 }}
+{{- end }}
 {{- end }}
