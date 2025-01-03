@@ -146,6 +146,7 @@ Install the helm chart with:
 | guacamole.image.pullPolicy | string | `"IfNotPresent"` | Image pull policy |
 | guacamole.image.repository | string | `"guacamole/guacamole"` | Image repository |
 | guacamole.image.tag | string | `"{{ .Chart.AppVersion }}"` | Image tag defaults to Chart AppVersion |
+| guacamole.name | string | `"guacamole"` | Container Name |
 | guacamole.resources | object | `{"limits":{"cpu":"1000m","memory":"1Gi"},"requests":{"cpu":"1000m","ephemeral-storage":"2Gi","memory":"1Gi"}}` | Pod assigned resources |
 | guacamole.securityContext | object | `{"allowPrivilegeEscalation":false,"capabilities":{"drop":["ALL"]},"readOnlyRootFilesystem":false,"seccompProfile":{"type":"RuntimeDefault"}}` | Pod security context |
 | guacamole.service.port | int | `8080` | Service port number |
@@ -154,6 +155,7 @@ Install the helm chart with:
 | guacd.image.pullPolicy | string | `"IfNotPresent"` | Image pull policy |
 | guacd.image.repository | string | `"guacamole/guacd"` | Image repository |
 | guacd.image.tag | string | `"{{ .Chart.AppVersion }}"` | Image tag defaults to Chart AppVersion |
+| guacd.name | string | `"guacd"` | Container Name |
 | guacd.resources | object | `{"limits":{"cpu":"1000m","ephemeral-storage":"2Gi","memory":"1Gi"},"requests":{"cpu":"1000m","memory":"1Gi"}}` | Pod assigned resources |
 | guacd.securityContext | object | `{"allowPrivilegeEscalation":false,"capabilities":{"drop":["ALL"]},"readOnlyRootFilesystem":true,"seccompProfile":{"type":"RuntimeDefault"}}` | Pod security context |
 | guacd.service.port | int | `4822` | Service port number |
@@ -173,6 +175,7 @@ Install the helm chart with:
 | postgres.image.pullPolicy | string | `"IfNotPresent"` | Image pull policy |
 | postgres.image.repository | string | `"postgres"` | Image repository |
 | postgres.image.tag | string | `"16-alpine"` | Image tag |
+| postgres.name | string | `"postgres"` | Container Name |
 | postgres.password | string | `"password"` | Postgres password |
 | postgres.pvc.selector | string | `nil` | Selector to match pre-provisioned PV |
 | postgres.pvc.storageClassName | string | `nil` | Storage Class Name for a pre-provisioned PV |
