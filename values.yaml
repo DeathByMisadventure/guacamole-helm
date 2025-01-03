@@ -61,10 +61,10 @@ guacd:
     limits:
       cpu: 1000m
       memory: 1Gi
-      ephemeral-storage: "2Gi"
     requests:
       cpu: 1000m
       memory: 1Gi
+      ephemeral-storage: "2Gi"
   # -- Pod security context
   securityContext:
     allowPrivilegeEscalation: false
@@ -100,10 +100,10 @@ postgres:
     limits:
       cpu: 100m
       memory: 1Gi
-      ephemeral-storage: "2Gi"
     requests:
       cpu: 100m
       memory: 1Gi
+      ephemeral-storage: "2Gi"
   # -- Pod security context
   securityContext:
     # allowPrivilegeEscalation: false
