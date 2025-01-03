@@ -31,6 +31,7 @@ spec:
             {{- toYaml .Values.postgres.resources | nindent 12 }}
           securityContext:
             {{- toYaml .Values.postgres.securityContext | nindent 12 }}
+          automountServiceAccountToken: false
           volumeMounts:
             - mountPath: /var/lib/postgresql/data
               name: postgres-pvc

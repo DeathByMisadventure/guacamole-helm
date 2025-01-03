@@ -36,3 +36,4 @@ spec:
             {{- toYaml .Values.guacd.resources | nindent 12 }}
           securityContext:
             {{- toYaml .Values.guacd.securityContext | nindent 12 }}
+          automountServiceAccountToken: false

@@ -100,6 +100,7 @@ spec:
             {{- toYaml .Values.guacamole.resources | nindent 12 }}
           securityContext:
             {{- toYaml .Values.guacamole.securityContext | nindent 12 }}
+          automountServiceAccountToken: false
       {{- if .Values.certificateTrust.chain }}
           volumeMounts:
           {{- include "truststore.volumeMounts" . | nindent 12 -}}
