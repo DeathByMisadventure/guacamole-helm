@@ -24,6 +24,7 @@ spec:
         options:
           - name: ndots
             value: "1"
+      automountServiceAccountToken: false
       initContainers:
         - name: create-init-db
           image: "{{ .Values.guacamole.image.repository }}:{{ tpl .Values.guacamole.image.tag . }}"
@@ -100,7 +101,6 @@ spec:
             {{- toYaml .Values.guacamole.resources | nindent 12 }}
           securityContext:
             {{- toYaml .Values.guacamole.securityContext | nindent 12 }}
-          automountServiceAccountToken: false
       {{- if .Values.certificateTrust.chain }}
           volumeMounts:
           {{- include "truststore.volumeMounts" . | nindent 12 -}}

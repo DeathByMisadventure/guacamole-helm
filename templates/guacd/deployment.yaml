@@ -24,6 +24,7 @@ spec:
         options:
           - name: ndots
             value: "1"
+      automountServiceAccountToken: false
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.guacd.image.repository }}:{{ tpl .Values.guacd.image.tag . }}"
@@ -36,4 +37,3 @@ spec:
             {{- toYaml .Values.guacd.resources | nindent 12 }}
           securityContext:
             {{- toYaml .Values.guacd.securityContext | nindent 12 }}
-          automountServiceAccountToken: false

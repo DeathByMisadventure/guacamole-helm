@@ -16,6 +16,7 @@ spec:
         app.kubernetes.io/name: {{ include "guacamole.name" . }}-postgres
         app.kubernetes.io/instance: {{ .Release.Name }}
     spec:
+      automountServiceAccountToken: false
       containers:
         - name: postgres
           envFrom:
@@ -31,7 +32,6 @@ spec:
             {{- toYaml .Values.postgres.resources | nindent 12 }}
           securityContext:
             {{- toYaml .Values.postgres.securityContext | nindent 12 }}
-          automountServiceAccountToken: false
           volumeMounts:
             - mountPath: /var/lib/postgresql/data
               name: postgres-pvc
