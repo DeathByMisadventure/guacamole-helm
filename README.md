@@ -83,9 +83,43 @@ and it utilizes a private Certificate Authority.
 Simply create all necessary PEM certificates for the certificate root and any intermediate certificates.  Add them under
 certificateTrust.chain: and an init container will be created to import them properly into the Guacamole container.
 
+## Use Internal Postgresql
+
+If you utilize the instance of Postgresql included in this chart, a Persistent Volume (PV) is recommended.
+Create a PV according to the requirements of your environment.
+
+This demo kubernetes PV will create with storage in your kubernetes host's /tmp/postgres-pv directory.
+Remember to deploy this in the same namespace as the helm deployment.
+
+The two keys are the `storageClassName:` and the `metadata.name:` which will then need to match
+`postgres.pvc.storageClassName:` and the `postgres.pvc.selector:` in values.yaml for the Persistent Volume Claim
+used in the helm chart.
+
+```yaml
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: postgres-pv
+spec:
+  accessModes:
+    - ReadWriteOnce
+  capacity:
+    storage: 1Gi
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: standard
+  hostPath:
+    path: /tmp/postgres-pv
+```
+
+## NGINX Modsecurity OWASP
+
+`ingress-nginx.controller.config` in the values.yaml configuration enables the [OWASP Web Application Firewall](https://kubernetes.github.io/ingress-nginx/user-guide/third-party-addons/modsecurity/).
+
+The necessary rule changes to work with Guacamole have been applied.
+
 ## Deployment
 
-Import the dependencies:
+Import the dependencies for the helm chart:
 
 `helm dependency update`
 
@@ -93,7 +127,8 @@ Create a namespace if needed:
 
 `kubectl create ns guacamole`
 
-Add a secret for the certificate if needed, and configure TLS in the values. [Documentation](https://kubernetes.io/docs/reference/kubectl/generated/kubectl_create/kubectl_create_secret_tls/)
+Add a secret for the ingress TLS certificate if needed, and configure TLS in the values.
+[Documentation](https://kubernetes.io/docs/reference/kubectl/generated/kubectl_create/kubectl_create_secret_tls/)
 
 `kubectl create --namespace guacamole secret tls external-tls-cert --cert=tls.crt --key=tls.key`
 
@@ -124,7 +159,8 @@ Install the helm chart with:
 | guacd.service.port | int | `4822` | Service port number |
 | guacd.service.type | string | `"ClusterIP"` | Service type |
 | imagePullSecrets | list | `[]` | Image pull secrets |
-| ingress.annotations | object | `{}` | Ingress annotations |
+| ingress-nginx.controller.config | object | `{"enable-modsecurity":"true","enable-owasp-modsecurity-crs":"true","modsecurity-snippet":"SecRuleEngine On\nSecStatusEngine Off\nSecAuditLog /dev/stdout\nSecAuditLogFormat JSON\nSecAuditLogParts ABCFHKZ\nSecAuditEngine RelevantOnly\nSecPcreMatchLimit 500000\nSecPcreMatchLimitRecursion 500000\nSecAction \"id:900200,phase:1,nolog,pass,t:none,setvar:tx.allowed_methods=GET HEAD POST OPTIONS PUT PATCH DELETE\"\nSecRuleRemoveById 920440\n","modsecurity-transaction-id":"$request_id"}` | Ingress-NGINX Configuration for MODSECURITY OWASP Protection |
+| ingress.annotations | string | `nil` | Ingress annotations |
 | ingress.className | string | `"nginx"` | Ingress class type |
 | ingress.enabled | bool | `true` | Enable Ingress |
 | ingress.hosts[0] | object | `{"host":"guac.localdev.me","paths":["/"]}` | Ingress hostname to bind |
@@ -138,7 +174,9 @@ Install the helm chart with:
 | postgres.image.repository | string | `"postgres"` | Image repository |
 | postgres.image.tag | string | `"16-alpine"` | Image tag |
 | postgres.password | string | `"password"` | Postgres password |
-| postgres.pvc.claim0.storageRequest | string | `"100Mi"` | Postgres PVC storage request size |
+| postgres.pvc.selector | string | `nil` | Selector to match pre-provisioned PV |
+| postgres.pvc.storageClassName | string | `nil` | Storage Class Name for a pre-provisioned PV |
+| postgres.pvc.storageRequest | string | `"100Mi"` | Postgres PVC storage request size |
 | postgres.replicas | int | `1` | Number of replicas |
 | postgres.resources | object | `{"limits":{"cpu":"100m","memory":"1Gi"},"requests":{"cpu":"100m","memory":"1Gi"}}` | Pod assigned resources |
 | postgres.securityContext | string | `nil` | Pod security context |
