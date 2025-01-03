@@ -26,12 +26,12 @@ spec:
             value: "1"
       automountServiceAccountToken: false
       initContainers:
-        - name: create-init-db
+        - name: {{ .Values.guacamole.name }}-initdb
           image: "{{ .Values.guacamole.image.repository }}:{{ tpl .Values.guacamole.image.tag . }}"
           imagePullPolicy: {{ .Values.guacamole.image.pullPolicy }}
           envFrom:
             - secretRef:
-                name: {{ include "guacamole.fullname" . }}
+                name: {{ .Values.guacamole.name }}-secret
           resources:
             {{- toYaml .Values.guacamole.resources | nindent 12 }}
           securityContext:
@@ -44,12 +44,12 @@ spec:
             - -c
             - |
               /opt/guacamole/bin/initdb.sh --postgresql > /data/initdb.sql
-        - name: loaddb
+        - name: {{ .Values.guacamole.name }}-loaddb
           image: "{{ .Values.postgres.image.repository }}:{{ .Values.postgres.image.tag }}"
           imagePullPolicy: {{ .Values.postgres.image.pullPolicy }}
           envFrom:
             - secretRef:
-                name: {{ include "guacamole.fullname" . }}
+                name: {{ .Values.guacamole.name }}-secret
           resources:
             {{- toYaml .Values.postgres.resources | nindent 12 }}
           securityContext:
@@ -68,23 +68,23 @@ spec:
               export PGPASSWORD=$POSTGRESQL_PASSWORD
               psql -h $POSTGRESQL_HOSTNAME -d $POSTGRESQL_DATABASE -U $POSTGRESQL_USER -p $POSTGRESQL_PORT "sslmode=$POSTGRESQL_SSL_MODE" -a -w -f /data/initdb.sql
       {{- if .Values.certificateTrust.chain }}
-        - name: {{ .Release.Name }}-init-jks
+        - name: {{ .Values.guacamole.name }}-init-jks
           image: "{{ .Values.guacamole.image.repository }}:{{ tpl .Values.guacamole.image.tag . }}"
           command: ['sh', '-c', '/load/certimport.sh']
           volumeMounts:
-            - name: {{ include "guacamole.fullname" . }}-certchain
+            - name: {{ .Values.guacamole.name }}-certchain
               mountPath: /load/
           securityContext:
             {{- toYaml .Values.guacamole.securityContext | nindent 12 }}
         {{ include "truststore.volumeMounts" . | indent 4 }}
       {{- end }}
       containers:
-        - name: {{ .Chart.Name }}
+        - name: {{ .Values.guacamole.name }}
           image: "{{ .Values.guacamole.image.repository }}:{{ tpl .Values.guacamole.image.tag . }}"
           imagePullPolicy: {{ .Values.guacamole.image.pullPolicy }}
           envFrom:
             - secretRef:
-                name: {{ include "guacamole.fullname" . }}
+                name: {{ .Values.guacamole.name }}-secret
           ports:
             - name: http
               containerPort: {{ .Values.guacamole.service.port }}

@@ -4,6 +4,8 @@
 replicaCount: 1
 
 guacamole:
+  # -- Container Name
+  name: guacamole
   image:
     # -- Image repository
     repository: guacamole/guacamole
@@ -45,6 +47,8 @@ guacamole:
     port: 8080
 
 guacd:
+  # -- Container Name
+  name: guacd
   image:
     # -- Image repository
     repository: guacamole/guacd
@@ -78,6 +82,8 @@ guacd:
     port: 4822
 
 postgres:
+  # -- Container Name
+  name: postgres
   # -- Enable internal postgres database
   enabled: true
   image:

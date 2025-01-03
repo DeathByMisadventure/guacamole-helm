@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: {{ include "guacamole.fullname" . }}-pvc
+  name: {{ .Values.postgres.name }}-pvc
   labels:
   {{- include "guacamole.labels" . | nindent 4 }}
 spec:

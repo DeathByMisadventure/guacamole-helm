@@ -26,7 +26,7 @@ spec:
             value: "1"
       automountServiceAccountToken: false
       containers:
-        - name: {{ .Chart.Name }}
+        - name: {{ .Values.guacd.name }}
           image: "{{ .Values.guacd.image.repository }}:{{ tpl .Values.guacd.image.tag . }}"
           imagePullPolicy: {{ .Values.guacd.image.pullPolicy }}
           ports:

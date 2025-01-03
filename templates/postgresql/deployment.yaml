@@ -18,10 +18,10 @@ spec:
     spec:
       automountServiceAccountToken: false
       containers:
-        - name: postgres
+        - name: {{ .Values.postgres.name }}
           envFrom:
             - secretRef:
-                name: {{ include "guacamole.fullname" . }}-postgres
+                name: {{ .Values.postgres.name }}-secret
           image: {{ .Values.postgres.image.repository }}:{{ .Values.postgres.image.tag }}
           imagePullPolicy: {{ .Values.postgres.image.pullPolicy }}
           ports:
@@ -34,10 +34,10 @@ spec:
             {{- toYaml .Values.postgres.securityContext | nindent 12 }}
           volumeMounts:
             - mountPath: /var/lib/postgresql/data
-              name: postgres-pvc
+              name: {{ .Values.postgres.name }}-pvc
       restartPolicy: Always
       volumes:
-        - name: postgres-pvc
+        - name: {{ .Values.postgres.name }}-pvc
           persistentVolumeClaim:
-            claimName: {{ include "guacamole.fullname" . }}-pvc
+            claimName: {{ .Values.postgres.name }}-pvc
 {{- end }}
