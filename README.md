@@ -4,6 +4,8 @@ Apache Guacamole is a clientless remote desktop gateway. It supports standard pr
 
 ![Version: 1.5.5](https://img.shields.io/badge/Version-1.5.5-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.5.5](https://img.shields.io/badge/AppVersion-1.5.5-informational?style=flat-square)
 
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=DeathByMisadventure_guacamole-helm&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=DeathByMisadventure_guacamole-helm)
+
 **Homepage:** <https://github.com/DeathByMisadventure/guacamole-helm>
 
 ## Requirements
