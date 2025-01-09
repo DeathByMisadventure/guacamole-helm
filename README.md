@@ -113,7 +113,7 @@ spec:
     path: /tmp/postgres-pv
 ```
 
-## NGINX Modsecurity OWASP
+## NGINX Modsecurity OWASP Web Application Firewall (WAF)
 
 `ingress-nginx.controller.config` in the values.yaml configuration enables the [OWASP Web Application Firewall](https://kubernetes.github.io/ingress-nginx/user-guide/third-party-addons/modsecurity/).
 
@@ -129,6 +129,10 @@ Create a namespace if needed:
 
 `kubectl create ns guacamole`
 
+If using the internal Postgres deployment, create the PV and deploy it.
+
+Customize any values by creating a local-values.yaml and including the overrides from the main values.yaml.
+
 Add a secret for the ingress TLS certificate if needed, and configure TLS in the values.
 [Documentation](https://kubernetes.io/docs/reference/kubectl/generated/kubectl_create/kubectl_create_secret_tls/)
 
@@ -136,7 +140,7 @@ Add a secret for the ingress TLS certificate if needed, and configure TLS in the
 
 Install the helm chart with:
 
-`helm install --namespace guacamole guacamole .`
+`helm install --namespace guacamole -f ./local-values.yaml deployment-name .`
 
 ## Values
 
