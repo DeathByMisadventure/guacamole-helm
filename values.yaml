@@ -116,8 +116,6 @@ postgres:
     # seccompProfile:
     #   type: RuntimeDefault
   service:
-    # -- Service type
-    type: ClusterIP
     # -- Service port number
     port: "5432"
   # -- If internal postgres is disabled, the external database hostname

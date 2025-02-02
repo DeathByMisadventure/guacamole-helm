@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ include "guacamole.fullname" . }}-guacd
+  namespace: {{ .Release.Namespace | quote }}
   labels:
 {{ include "guacamole.labels" . | indent 4 }}
 spec:

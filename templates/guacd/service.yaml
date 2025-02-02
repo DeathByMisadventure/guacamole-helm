@@ -1,7 +1,9 @@
+{{- $fullName := include "guacamole.fullname" . -}}
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ .Values.guacd.name }}-svc
+  name: {{ $fullName }}-guacd
+  namespace: {{ .Release.Namespace | quote }}
   labels:
 {{ include "guacamole.labels" . | indent 4 }}
 spec:
