@@ -190,6 +190,5 @@ Install the helm chart with:
 | postgres.resources | object | `{"limits":{"cpu":"100m","ephemeral-storage":"2Gi","memory":"1Gi"},"requests":{"cpu":"100m","ephemeral-storage":"2Gi","memory":"1Gi"}}` | Pod assigned resources |
 | postgres.securityContext | string | `nil` | Pod security context |
 | postgres.service.port | string | `"5432"` | Service port number |
-| postgres.service.type | string | `"ClusterIP"` | Service type |
 | postgres.user | string | `"guacamole"` | Postgres username |
 | replicaCount | int | `1` | Replica pairs to use for each Guacd and Guacamole pair |
