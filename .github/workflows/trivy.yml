@@ -21,7 +21,7 @@ jobs:
       - name: Set up python
         uses: actions/setup-python@13ae5bb136fac2878aff31522b9efb785519f984 # tag=v4.3.0
         with:
-          python-version: 3.7
+          python-version: 3.13.0
 
       - name: Run Trivy vulnerability scanner in IaC mode
         uses: aquasecurity/trivy-action@9ab158e8597f3b310480b9a69402b419bc03dbd5 # tag=0.8.0
