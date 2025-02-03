@@ -111,7 +111,9 @@ spec:
 
 ## NGINX Modsecurity OWASP Web Application Firewall (WAF)
 
-`ingress-nginx.controller.config` in the values.yaml configuration enables the [OWASP Web Application Firewall](https://kubernetes.github.io/ingress-nginx/user-guide/third-party-addons/modsecurity/).
+`ingress-nginx.controller.config` in the values.yaml configuration enables the [Web Application Firewall (WAF)](https://kubernetes.github.io/ingress-nginx/user-guide/third-party-addons/modsecurity/).  The Ingress WAF comes with the [OWASP Core Rule Set (CRS)](https://owasp.org/www-project-modsecurity-core-rule-set/).
+
+The OWASP CRS provides the rules for the NGINX ModSecurity WAF to block SQL Injection (SQLi), Remote Code Execution (RCE), Local File Include (LFI), cross‑site scripting (XSS), and many other attacks.
 
 The necessary rule changes to work with Guacamole have been applied.
 

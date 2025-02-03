@@ -176,6 +176,7 @@ certificateTrust:
 ingress-nginx:
   controller:
     # -- Ingress-NGINX Configuration for MODSECURITY OWASP Protection
+    # Comment out this entire section to disable the WAF
     config:
       enable-modsecurity: "true"
       enable-owasp-modsecurity-crs: "true"
