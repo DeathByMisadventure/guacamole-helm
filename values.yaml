@@ -169,7 +169,7 @@ certificateTrust:
   chain: |
 
 ingress-nginx:
-  # -- Enable the ingress-nginx module if not enabled in the cluster
+  # -- Enable the ingress-nginx module dependency if not enabled in the cluster
   enabled: false
   controller:
     # -- Ingress-NGINX Configuration for MODSECURITY OWASP Protection
