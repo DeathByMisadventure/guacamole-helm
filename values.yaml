@@ -152,8 +152,24 @@ ingress:
   className: nginx
   # -- Ingress annotations
   annotations:
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
     # appgw.ingress.kubernetes.io/ssl-redirect: "true"
     # kubernetes.io/ingress.class: azure/application-gateway
+    # # Enable for modsecurity through an ingress-nginx snippet
+    # nginx.ingress.kubernetes.io/enable-modsecurity: "true"
+    # nginx.ingress.kubernetes.io/enable-owasp-core-rules: "true"
+    # nginx.ingress.kubernetes.io/modsecurity-transaction-id: "$request_id"
+    # nginx.ingress.kubernetes.io/modsecurity-snippet: |
+    #   SecRuleEngine On
+    #   SecStatusEngine Off
+    #   SecAuditLog /dev/stdout
+    #   SecAuditLogFormat JSON
+    #   SecAuditLogParts ABCFHKZ
+    #   SecAuditEngine RelevantOnly
+    #   SecPcreMatchLimit 500000
+    #   SecPcreMatchLimitRecursion 500000
+    #   SecAction "id:900200,phase:1,nolog,pass,t:none,setvar:tx.allowed_methods=GET HEAD POST OPTIONS PUT PATCH DELETE"
+    #   SecRuleRemoveById 920440
   host: guac.localdev.me
   # -- Enable TLS
   tls:
