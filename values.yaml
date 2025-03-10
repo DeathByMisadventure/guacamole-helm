@@ -154,12 +154,7 @@ ingress:
   annotations:
     # appgw.ingress.kubernetes.io/ssl-redirect: "true"
     # kubernetes.io/ingress.class: azure/application-gateway
-  hosts:
-    # -- Ingress hostname to bind
-    - host: guac.localdev.me
-      # -- Ingress host paths
-      paths:
-        - /
+  host: guac.localdev.me
   # -- Enable TLS
   tls:
     # - hosts:
