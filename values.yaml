@@ -169,6 +169,8 @@ certificateTrust:
   chain: |
 
 ingress-nginx:
+  # -- Enable the ingress-nginx module if not enabled in the cluster
+  enabled: false
   controller:
     # -- Ingress-NGINX Configuration for MODSECURITY OWASP Protection
     # Comment out this entire section to disable the WAF
