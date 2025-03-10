@@ -109,6 +109,11 @@ spec:
     path: /tmp/postgres-pv
 ```
 
+## Enabling INGRESS-NGINX
+
+If you do not currently have an ingress solution, setting ingress-nginx.enabled to true will import it into the
+kubernetes environment.  If you do have an ingress solution in the cluster, then it may remain disabled.
+
 ## NGINX Modsecurity OWASP Web Application Firewall (WAF)
 
 `ingress-nginx.controller.config` in the values.yaml configuration enables the [Web Application Firewall (WAF)](https://kubernetes.github.io/ingress-nginx/user-guide/third-party-addons/modsecurity/).  The Ingress WAF comes with the [OWASP Core Rule Set (CRS)](https://owasp.org/www-project-modsecurity-core-rule-set/).
@@ -116,6 +121,11 @@ spec:
 The OWASP CRS provides the rules for the NGINX ModSecurity WAF to block SQL Injection (SQLi), Remote Code Execution (RCE), Local File Include (LFI), cross‑site scripting (XSS), and many other attacks.
 
 The necessary rule changes to work with Guacamole have been applied.
+
+Two solutions exist:
+* If using the ingress-nginx dependency, then the values.yaml has this enabled by default.
+* If ingress-nginx is disabled, then you can optionally enable it, depending on your ingress solution. If ingress-nginx then
+ensure that the allowSnippetAnnotations is enabled when it was deployed.
 
 ## Deployment
 
