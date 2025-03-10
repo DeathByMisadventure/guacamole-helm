@@ -173,8 +173,7 @@ Install the helm chart with:
 | ingress.annotations | string | `nil` | Ingress annotations |
 | ingress.className | string | `"nginx"` | Ingress class type |
 | ingress.enabled | bool | `true` | Enable Ingress |
-| ingress.hosts[0] | object | `{"host":"guac.localdev.me","paths":["/"]}` | Ingress hostname to bind |
-| ingress.hosts[0].paths | list | `["/"]` | Ingress host paths |
+| ingress.host | string | `"guac.localdev.me"` |  |
 | ingress.tls | string | `nil` | Enable TLS |
 | nameOverride | string | `""` | Override deployment name |
 | postgres.database | string | `"guacamole"` | Database name |
