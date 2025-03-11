@@ -25,11 +25,10 @@ guacamole:
   resources:
     limits:
       cpu: 1000m
-      memory: 1Gi
+      memory: 512Mi
     requests:
-      cpu: 1000m
-      memory: 1Gi
-      ephemeral-storage: "2Gi"
+      cpu: 100m
+      memory: 20Mi
   # -- Pod security context
   securityContext:
     allowPrivilegeEscalation: false
@@ -60,11 +59,10 @@ guacd:
   resources:
     limits:
       cpu: 1000m
-      memory: 1Gi
+      memory: 512Mi
     requests:
-      cpu: 1000m
-      memory: 1Gi
-      ephemeral-storage: "2Gi"
+      cpu: 100m
+      memory: 20Mi
   # -- Pod security context
   securityContext:
     allowPrivilegeEscalation: false
@@ -98,12 +96,11 @@ postgres:
   # -- Pod assigned resources
   resources:
     limits:
-      cpu: 100m
-      memory: 1Gi
-      ephemeral-storage: "2Gi"
+      cpu: 1000m
+      memory: 512Mi
     requests:
       cpu: 100m
-      memory: 1Gi
+      memory: 20Mi
       ephemeral-storage: "2Gi"
   # -- Pod security context
   securityContext:
