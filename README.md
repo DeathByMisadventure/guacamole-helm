@@ -165,7 +165,7 @@ Install the helm chart with:
 | guacamole.image.repository | string | `"guacamole/guacamole"` | Image repository |
 | guacamole.image.tag | string | `"{{ .Chart.AppVersion }}"` | Image tag defaults to Chart AppVersion |
 | guacamole.name | string | `"guacamole"` | Container Name |
-| guacamole.resources | object | `{"limits":{"cpu":"1000m","memory":"512Mi"},"requests":{"cpu":"100m","memory":"20Mi"}}` | Pod assigned resources |
+| guacamole.resources | object | `{"limits":{"cpu":"1000m","memory":"512Mi"},"requests":{"cpu":"100m","memory":"200Mi"}}` | Pod assigned resources |
 | guacamole.securityContext | object | `{"allowPrivilegeEscalation":false,"capabilities":{"drop":["ALL"]},"readOnlyRootFilesystem":false,"seccompProfile":{"type":"RuntimeDefault"}}` | Pod security context |
 | guacamole.service.port | int | `8080` | Service port number |
 | guacamole.service.type | string | `"ClusterIP"` | Service type |
