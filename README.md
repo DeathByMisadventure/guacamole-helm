@@ -156,51 +156,51 @@ Install the helm chart with:
 
 ## Values
 
-| Key | Type | Default | Description |
-|-----|------|---------|-------------|
-| certificateTrust.chain | string | "" | Chain of 0 to many PEM certificates which will be imported into the trust store |
-| certificateTrust.storePassword | string | `nil` | Override the JKS store password, if blank the password defaults to 'changeit' |
-| fullnameOverride | string | `""` | Override deployment name |
-| guacamole.image.pullPolicy | string | `"IfNotPresent"` | Image pull policy |
-| guacamole.image.repository | string | `"guacamole/guacamole"` | Image repository |
-| guacamole.image.tag | string | `"{{ .Chart.AppVersion }}"` | Image tag defaults to Chart AppVersion |
-| guacamole.name | string | `"guacamole"` | Container Name |
-| guacamole.resources | object | `{"limits":{"cpu":"1000m","memory":"512Mi"},"requests":{"cpu":"100m","memory":"200Mi"}}` | Pod assigned resources |
-| guacamole.securityContext | object | `{"allowPrivilegeEscalation":false,"capabilities":{"drop":["ALL"]},"readOnlyRootFilesystem":false,"seccompProfile":{"type":"RuntimeDefault"}}` | Pod security context |
-| guacamole.service.port | int | `8080` | Service port number |
-| guacamole.service.type | string | `"ClusterIP"` | Service type |
-| guacamole.settings | object | "" | Key-value settings directly passed as environment variables for guacamole configuration |
-| guacd.image.pullPolicy | string | `"IfNotPresent"` | Image pull policy |
-| guacd.image.repository | string | `"guacamole/guacd"` | Image repository |
-| guacd.image.tag | string | `"{{ .Chart.AppVersion }}"` | Image tag defaults to Chart AppVersion |
-| guacd.name | string | `"guacd"` | Container Name |
-| guacd.resources | object | `{"limits":{"cpu":"1000m","memory":"512Mi"},"requests":{"cpu":"100m","memory":"20Mi"}}` | Pod assigned resources |
-| guacd.securityContext | object | `{"allowPrivilegeEscalation":false,"capabilities":{"drop":["ALL"]},"readOnlyRootFilesystem":true,"seccompProfile":{"type":"RuntimeDefault"}}` | Pod security context |
-| guacd.service.port | int | `4822` | Service port number |
-| guacd.service.type | string | `"ClusterIP"` | Service type |
-| imagePullSecrets | list | `[]` | Image pull secrets |
-| ingress-nginx.controller.config | object | `{"enable-modsecurity":"true","enable-owasp-modsecurity-crs":"true","modsecurity-snippet":"SecRuleEngine On\nSecStatusEngine Off\nSecAuditLog /dev/stdout\nSecAuditLogFormat JSON\nSecAuditLogParts ABCFHKZ\nSecAuditEngine RelevantOnly\nSecPcreMatchLimit 500000\nSecPcreMatchLimitRecursion 500000\nSecAction \"id:900200,phase:1,nolog,pass,t:none,setvar:tx.allowed_methods=GET HEAD POST OPTIONS PUT PATCH DELETE\"\nSecRuleRemoveById 920440\n","modsecurity-transaction-id":"$request_id"}` | Ingress-NGINX Configuration for MODSECURITY OWASP Protection Comment out this entire section to disable the WAF |
-| ingress-nginx.enabled | bool | `false` | Enable the ingress-nginx module dependency if not enabled in the cluster |
-| ingress.annotations | object | `{"nginx.ingress.kubernetes.io/force-ssl-redirect":"true"}` | Ingress annotations |
-| ingress.className | string | `"nginx"` | Ingress class type |
-| ingress.enabled | bool | `true` | Enable Ingress |
-| ingress.host | string | `"guac.localdev.me"` |  |
-| ingress.tls | string | `nil` | Enable TLS |
-| nameOverride | string | `""` | Override deployment name |
-| postgres.database | string | `"guacamole"` | Database name |
-| postgres.enabled | bool | `true` | Enable internal postgres database |
-| postgres.hostname | string | `"postgres.localdev.me"` | If internal postgres is disabled, the external database hostname |
-| postgres.image.pullPolicy | string | `"IfNotPresent"` | Image pull policy |
-| postgres.image.repository | string | `"postgres"` | Image repository |
-| postgres.image.tag | string | `"16-alpine"` | Image tag |
-| postgres.name | string | `"postgres"` | Container Name |
-| postgres.password | string | `"password"` | Postgres password |
-| postgres.pvc.selector | string | `nil` | Selector to match pre-provisioned PV |
-| postgres.pvc.storageClassName | string | `nil` | Storage Class Name for a pre-provisioned PV |
-| postgres.pvc.storageRequest | string | `"100Mi"` | Postgres PVC storage request size |
-| postgres.replicas | int | `1` | Number of replicas |
-| postgres.resources | object | `{"limits":{"cpu":"1000m","memory":"512Mi"},"requests":{"cpu":"100m","ephemeral-storage":"2Gi","memory":"20Mi"}}` | Pod assigned resources |
-| postgres.securityContext | string | `nil` | Pod security context |
-| postgres.service.port | string | `"5432"` | Service port number |
-| postgres.user | string | `"guacamole"` | Postgres username |
-| replicaCount | int | `1` | Replica pairs to use for each Guacd and Guacamole pair |
+| Key | Type | Description |
+|-----|------|-------------|
+| certificateTrust.chain | string | Chain of 0 to many PEM certificates which will be imported into the trust store |
+| certificateTrust.storePassword | string | Override the JKS store password, if blank the password defaults to 'changeit' |
+| fullnameOverride | string | Override deployment name |
+| guacamole.image.pullPolicy | string | Image pull policy |
+| guacamole.image.repository | string | Image repository |
+| guacamole.image.tag | string | Image tag defaults to Chart AppVersion |
+| guacamole.name | string | Container Name |
+| guacamole.resources | object | Pod assigned resources |
+| guacamole.securityContext | object | Pod security context |
+| guacamole.service.port | int | Service port number |
+| guacamole.service.type | string | Service type |
+| guacamole.settings | object | Key-value settings directly passed as environment variables for guacamole configuration |
+| guacd.image.pullPolicy | string | Image pull policy |
+| guacd.image.repository | string | Image repository |
+| guacd.image.tag | string | Image tag defaults to Chart AppVersion |
+| guacd.name | string | Container Name |
+| guacd.resources | object | Pod assigned resources |
+| guacd.securityContext | object | Pod security context |
+| guacd.service.port | int | Service port number |
+| guacd.service.type | string | Service type |
+| imagePullSecrets | list | Image pull secrets |
+| ingress-nginx.controller.config | object | Ingress-NGINX Configuration for MODSECURITY OWASP Protection Comment out this entire section to disable the WAF |
+| ingress-nginx.enabled | bool | Enable the ingress-nginx module dependency if not enabled in the cluster |
+| ingress.annotations | object | Ingress annotations |
+| ingress.className | string | Ingress class type |
+| ingress.enabled | bool | Enable Ingress |
+| ingress.host | string |  |
+| ingress.tls | string | Enable TLS |
+| nameOverride | string | Override deployment name |
+| postgres.database | string | Database name |
+| postgres.enabled | bool | Enable internal postgres database |
+| postgres.hostname | string | If internal postgres is disabled, the external database hostname |
+| postgres.image.pullPolicy | string | Image pull policy |
+| postgres.image.repository | string | Image repository |
+| postgres.image.tag | string | Image tag |
+| postgres.name | string | Container Name |
+| postgres.password | string | Postgres password |
+| postgres.pvc.selector | string | Selector to match pre-provisioned PV |
+| postgres.pvc.storageClassName | string | Storage Class Name for a pre-provisioned PV |
+| postgres.pvc.storageRequest | string | Postgres PVC storage request size |
+| postgres.replicas | int | Number of replicas |
+| postgres.resources | object | Pod assigned resources |
+| postgres.securityContext | string | Pod security context |
+| postgres.service.port | string | Service port number |
+| postgres.user | string | Postgres username |
+| replicaCount | int | Replica pairs to use for each Guacd and Guacamole pair |
