@@ -6,4 +6,6 @@
 {{- end }}
 {{- end }}
 
-Default Administrator Credentials: guacadmin / guacadmin
+Default Administrator Credentials are
+Username: {{ .Values.guacamole.admin.username }}
+Password: {{ .Values.guacamole.admin.password }}

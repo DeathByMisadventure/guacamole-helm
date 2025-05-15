@@ -116,7 +116,7 @@ postgres:
     # -- Service port number
     port: "5432"
   # -- If internal postgres is disabled, the external database hostname
-  hostname: "postgres.localdev.me"
+  hostname: "postgres.lvh.me"
 
   # -- Database name
   database: "guacamole"
@@ -167,11 +167,11 @@ ingress:
     #   SecPcreMatchLimitRecursion 500000
     #   SecAction "id:900200,phase:1,nolog,pass,t:none,setvar:tx.allowed_methods=GET HEAD POST OPTIONS PUT PATCH DELETE"
     #   SecRuleRemoveById 920440
-  host: guac.localdev.me
+  host: guac.lvh.me
   # -- Enable TLS
   tls:
     # - hosts:
-    #   - guac.localdev.me
+    #   - guac.lvh.me
     #   secretName: external-tls-cert
 
 certificateTrust:
