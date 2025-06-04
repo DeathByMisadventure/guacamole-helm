@@ -5,7 +5,3 @@
   {{- end }}
 {{- end }}
 {{- end }}
-
-Default Administrator Credentials are
-Username: {{ .Values.guacamole.admin.username }}
-Password: {{ .Values.guacamole.admin.password }}

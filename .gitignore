@@ -3,3 +3,4 @@ charts/*
 requirements.lock
 results.txt
 local.yaml
+.DS_Store
