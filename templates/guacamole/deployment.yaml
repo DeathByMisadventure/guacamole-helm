@@ -16,6 +16,9 @@ spec:
       labels:
         app.kubernetes.io/name: {{ include "guacamole.name" . }}-guacamole
         app.kubernetes.io/instance: {{ .Release.Name }}
+      annotations:
+        checksum/configmap: {{ include (print $.Template.BasePath "/guacamole/configmap.yaml") . | sha256sum }}
+        checksum/secret: {{ include (print $.Template.BasePath "/guacamole/secret.yaml") . | sha256sum }}
     spec:
     {{- with .Values.guacamole.imagePullSecrets }}
       imagePullSecrets:
