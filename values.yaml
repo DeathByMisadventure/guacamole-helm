@@ -142,6 +142,21 @@ nameOverride: ""
 # -- Override deployment name
 fullnameOverride: ""
 
+# Credentials for the guacadmin user
+# To generate a password hash and salt, use the following python script:
+  # from hashlib import sha256
+  # import os
+  # import base64
+  # def generate_guacamole_password_hash(password):
+  #     salt = os.urandom(32)  # Generate 32-byte random salt
+  #     salt_hex = salt.hex().upper()  # Convert to uppercase hex
+  #     passwd = password + salt_hex
+  #     hash_result = sha256(passwd.encode('utf-8')).hexdigest()
+  #     return hash_result, salt.hex()
+  # new_password = "secureGuacPassword123"
+  # password_hash, salt_hex = generate_guacamole_password_hash(new_password)
+  # print(f"Password Hash: {password_hash}")
+  # print(f"Salt: {salt_hex}")
 credentials:
   # -- Guacadmin password hash
   hash:

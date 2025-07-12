@@ -2,7 +2,7 @@
 
 Apache Guacamole is a clientless remote desktop gateway. It supports standard protocols like VNC, RDP, and SSH. This version of the helm chart includes support for custom configuration such as OpenID and custom CA root certificate capabilities. This helm chart will deploy pairs of guacamole and guacd containers in Kubernetes for remote access into your secured environment.
 
-![Version: 1.5.5](https://img.shields.io/badge/Version-1.5.5-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.5.5](https://img.shields.io/badge/AppVersion-1.5.5-informational?style=flat-square)
+![Version: 1.6.0](https://img.shields.io/badge/Version-1.6.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.6.0](https://img.shields.io/badge/AppVersion-1.6.0-informational?style=flat-square)
 
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=DeathByMisadventure_guacamole-helm&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=DeathByMisadventure_guacamole-helm)
 
@@ -160,6 +160,8 @@ Install the helm chart with:
 |-----|------|-------------|
 | certificateTrust.chain | string | Chain of 0 to many PEM certificates which will be imported into the trust store |
 | certificateTrust.storePassword | string | Override the JKS store password, if blank the password defaults to 'changeit' |
+| credentials.hash | string | Guacadmin password hash |
+| credentials.salt | string | Guacadmin password salt |
 | fullnameOverride | string | Override deployment name |
 | guacamole.image.pullPolicy | string | Image pull policy |
 | guacamole.image.repository | string | Image repository |
