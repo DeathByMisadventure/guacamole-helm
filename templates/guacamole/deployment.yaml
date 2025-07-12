@@ -72,10 +72,14 @@ spec:
               export PGPASSWORD=$POSTGRESQL_PASSWORD
               # Use POSTGRESQL_USERNAME if set, otherwise fall back to POSTGRESQL_USER
               POSTGRES_USER=${POSTGRESQL_USERNAME:-$POSTGRESQL_USER}
-              psql -h $POSTGRESQL_HOSTNAME -d $POSTGRESQL_DATABASE -U $POSTGRES_USER -p $POSTGRESQL_PORT "sslmode=$POSTGRESQL_SSL_MODE" -a -w -f /data/initdb.sql
+              psql -h $POSTGRESQL_HOSTNAME -d $POSTGRESQL_DATABASE -U $POSTGRES_USER -p $POSTGRESQL_PORT \
+                "sslmode=$POSTGRESQL_SSL_MODE" -a -w -f /data/initdb.sql
               {{- if .Values.credentials.hash }}
-              psql -h $POSTGRESQL_HOSTNAME -d $POSTGRESQL_DATABASE -U $POSTGRES_USER -p $POSTGRESQL_PORT "sslmode=$POSTGRESQL_SSL_MODE" -a -w
-                -c "UPDATE guacamole_user SET password_hash = decode('{{ .Values.credentials.hash }}', 'hex'), password_salt = decode('{{ .Values.credentials.salt }}', 'hex'), password_date = CURRENT_TIMESTAMP WHERE entity_id = (SELECT entity_id FROM guacamole_entity WHERE name = 'guacadmin' AND type = 'USER');"
+              psql -h $POSTGRESQL_HOSTNAME -d $POSTGRESQL_DATABASE -U $POSTGRES_USER -p $POSTGRESQL_PORT \
+                "sslmode=$POSTGRESQL_SSL_MODE" -a -w -c \
+                "UPDATE guacamole_user SET password_hash = decode('{{ .Values.credentials.hash }}', 'hex'), \
+                password_salt = decode('{{ .Values.credentials.salt }}', 'hex'), password_date = CURRENT_TIMESTAMP \
+                WHERE entity_id = (SELECT entity_id FROM guacamole_entity WHERE name = 'guacadmin' AND type = 'USER');"
               {{- end }}
       {{- if .Values.certificateTrust.chain }}
         - name: {{ .Values.guacamole.name }}-init-jks
