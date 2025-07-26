@@ -1,0 +1,52 @@
+name: Lint and Test Charts
+
+on:
+  pull_request: # Changed from 'push' to 'pull_request' for CI efficiency
+    branches:
+      - main
+      - develop
+
+jobs:
+  lint-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4.2.0 # Updated to latest version
+        with:
+          fetch-depth: 0 # Required for ct to detect changed charts
+
+      - name: Set up Helm
+        uses: azure/setup-helm@v4.2.0 # Updated to latest version
+        with:
+          version: v3.17.0 # Specify exact Helm version for consistency
+
+      - name: Set up Python
+        uses: actions/setup-python@v5.3.0 # Updated to latest version
+        with:
+          python-version: '3.x' # Use flexible version with latest patch
+          check-latest: true # Ensures latest minor version
+
+      - name: Set up chart-testing
+        uses: helm/chart-testing-action@v2.7.0 # Updated to latest version
+
+      - name: Run chart-testing (list-changed)
+        id: list-changed
+        run: |
+          changed=$(ct list-changed --config ct.yaml --target-branch ${{ github.event.repository.default_branch }})
+          if [[ -n "$changed" ]]; then
+            echo "changed=true" >> $GITHUB_OUTPUT
+          else
+            echo "changed=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Run chart-testing (lint)
+        if: steps.list-changed.outputs.changed == 'true' # Only lint if charts changed
+        run: ct lint --config ct.yaml --target-branch ${{ github.event.repository.default_branch }}
+
+      - name: Create kind cluster
+        uses: helm/kind-action@v1.12.0 # Updated to latest version
+        if: steps.list-changed.outputs.changed == 'true' # Fixed condition
+
+      - name: Run chart-testing (install)
+        if: steps.list-changed.outputs.changed == 'true' # Only install if charts changed
+        run: ct install --config ct.yaml --target-branch ${{ github.event.repository.default_branch }}
