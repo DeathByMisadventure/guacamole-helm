@@ -103,15 +103,20 @@ postgres:
       memory: 20Mi
       ephemeral-storage: "2Gi"
   # -- Pod security context
+  podSecurityContext:
+    fsGroup: 999
+  # -- Container security context
   securityContext:
-    # allowPrivilegeEscalation: false
-    # runAsNonRoot: true
-    # readOnlyRootFilesystem: false
-    # capabilities:
-    #   drop:
-    #     - ALL
-    # seccompProfile:
-    #   type: RuntimeDefault
+    allowPrivilegeEscalation: false
+    runAsNonRoot: true
+    runAsUser: 999
+    runAsGroup: 999
+    readOnlyRootFilesystem: false
+    capabilities:
+      drop:
+        - ALL
+    seccompProfile:
+      type: RuntimeDefault
   service:
     # -- Service port number
     port: "5432"
