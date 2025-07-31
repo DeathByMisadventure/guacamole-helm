@@ -33,7 +33,20 @@ spec:
             - name: postgres-pvc
               mountPath: /var/lib/postgresql/data
           securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: false
+            capabilities:
+              drop:
+                - ALL
+              add:
+                - CHOWN
+                - FOWNER
+                - DAC_OVERRIDE
+            seccompProfile:
+              type: RuntimeDefault
             runAsUser: 0
+          resources:
+            {{- toYaml .Values.postgres.resources | nindent 12 }}
       containers:
         - name: {{ .Values.postgres.name }}
           envFrom:
